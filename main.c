@@ -10,41 +10,41 @@
 #pragma comment (lib, "libmysql.lib")
 #define DB_HOST "127.0.0.1"					// mysql hostname
 #define DB_USER "root"						// mysql user name
-#define DB_PASS "cwal03664!@#"				// mysql password
+#define DB_PASS "password"					// mysql password
 #define DB_NAME "score"						// mysql db
-#define CHOP(x) x[strlen(x) - 1] = ' '		// insertÇÒ¶§ ¹®ÀÚ¿­ chopping
-#define FALSE 0					// °ÅÁş
-#define TRUE 1					// Âü
-#define MAP_X_MAX 96			// ÃÖ´ë X ÁÂÇ¥
-#define MAP_Y_MAX 32			// ÃÖ´ë Y ÁÂÇ¥
-#define FLOOR_Y 26				// ¹Ù´Ú Y ÁÂÇ¥
-#define OBJECT_MAX 32			// »ı¼ºµÉ ¼ö ÀÖ´Â ObjectÀÇ ÃÖ´ñ°ª
-#define SPAWN_TIME 15000		// mobsÀÇ »ı¼º ÁÖ±â (15000ms)
+#define CHOP(x) x[strlen(x) - 1] = ' '		// insertí• ë•Œ ë¬¸ìì—´ chopping
+#define FALSE 0					// ê±°ì§“
+#define TRUE 1					// ì°¸
+#define MAP_X_MAX 96			// ìµœëŒ€ X ì¢Œí‘œ
+#define MAP_Y_MAX 32			// ìµœëŒ€ Y ì¢Œí‘œ
+#define FLOOR_Y 26				// ë°”ë‹¥ Y ì¢Œí‘œ
+#define OBJECT_MAX 32			// ìƒì„±ë  ìˆ˜ ìˆëŠ” Objectì˜ ìµœëŒ“ê°’
+#define SPAWN_TIME 15000		// mobsì˜ ìƒì„± ì£¼ê¸° (15000ms)
 
-// user ±¸Á¶Ã¼ ¼±¾ğ
+// user êµ¬ì¡°ì²´ ì„ ì–¸
 typedef struct _Character {
-	short coord[2], size[2];	// userÀÇ x, y ÁÂÇ¥°ª ¹× Å©±â
-	float accel[2], flyTime;	// userÀÇ °¡¼Ó°ª(0: x, 1: y) ¹× Ã¼°ø ½Ã°£
-	bool direction;				// userÀÇ ¹æÇâ, true¸é ¿À¸¥ÂÊ, false¸é ¿ŞÂÊ
+	short coord[2], size[2];	// userì˜ x, y ì¢Œí‘œê°’ ë° í¬ê¸°
+	float accel[2], flyTime;	// userì˜ ê°€ì†ê°’(0: x, 1: y) ë° ì²´ê³µ ì‹œê°„
+	bool direction;				// userì˜ ë°©í–¥, trueë©´ ì˜¤ë¥¸ìª½, falseë©´ ì™¼ìª½
 
 	// user status
-	char name[16];							// user ÀÌ¸§. ¾Æ·¡ score¿Í ÇÔ²² ÀúÀåµÊ.
+	char name[16];							// user ì´ë¦„. ì•„ë˜ scoreì™€ í•¨ê»˜ ì €ì¥ë¨.
 	int lv, exp[2], score, hp[2], mp[2];	// exp[] -> 0=exp required, 1=current exp // hp[], mp[] -> 0=max value, 1=current value
-	short power, weapon;					// userÀÇ °ø°İ·Â, ¹«±â
+	short power, weapon;					// userì˜ ê³µê²©ë ¥, ë¬´ê¸°
 
 	// animation control
 	// 0=leg_motion, 1,2,3=attack_motion(1, 2, 3), invincibility motion
 	short motion[4];
 
-	// 0=hp, mp È¸º¹ tick, 1=ÀÌµ¿ ¿òÁ÷ÀÓ tick, 2=°ø°İ ¿òÁ÷ÀÓ tick, 3=´ë½¬ ¿òÁ÷ÀÓ tick, 4=ÇÇ°İ ¿òÁ÷ÀÓ tick
+	// 0=hp, mp íšŒë³µ tick, 1=ì´ë™ ì›€ì§ì„ tick, 2=ê³µê²© ì›€ì§ì„ tick, 3=ëŒ€ì‰¬ ì›€ì§ì„ tick, 4=í”¼ê²© ì›€ì§ì„ tick
 	unsigned int tick[6];
 } Character;
 
-// object(items, mobs, particles) ±¸Á¶Ã¼ ¼±¾ğ
+// object(items, mobs, particles) êµ¬ì¡°ì²´ ì„ ì–¸
 typedef struct _Object {		// enemies, projectiles, particles, etc.
-	short coord[2], size[2];	// objectÀÇ x, y ÁÂÇ¥°ª ¹× Å©±â
-	float accel[2], flyTime;		// objectÀÇ °¡¼Ó°ª ¹× Ã¼°ø ½Ã°£
-	bool direction;				// objectÀÇ ¹æÇâ, true¸é ¿À¸¥ÂÊ, false¸é ¿ŞÂÊ
+	short coord[2], size[2];	// objectì˜ x, y ì¢Œí‘œê°’ ë° í¬ê¸°
+	float accel[2], flyTime;		// objectì˜ ê°€ì†ê°’ ë° ì²´ê³µ ì‹œê°„
+	bool direction;				// objectì˜ ë°©í–¥, trueë©´ ì˜¤ë¥¸ìª½, falseë©´ ì™¼ìª½
 
 	short kind;		// 1~99: items, 100~199: mobs, 200~: particles
 	int hp[2], exp;	// hp: this value is used randomly for item or particle object
@@ -54,9 +54,9 @@ typedef struct _Object {		// enemies, projectiles, particles, etc.
 	unsigned int tick[4];	// 0: hpshow time(enemy) or active time(projecticles, particles)
 } Object;
 
-// user ±¸Á¶Ã¼ ÃÊ±âÈ­
+// user êµ¬ì¡°ì²´ ì´ˆê¸°í™”
 Character character = {
-	{MAP_X_MAX / 2, MAP_Y_MAX / 2}, {3, 3},		// x,y ¸Ê Á¤Áß¾Ó, Å©±â 3 by 3
+	{MAP_X_MAX / 2, MAP_Y_MAX / 2}, {3, 3},		// x,y ë§µ ì •ì¤‘ì•™, í¬ê¸° 3 by 3
 	{0, 0},	0,
 	1,												// direction
 	"",												// name
@@ -67,87 +67,87 @@ Character character = {
 };
 Object** objects;
 
-unsigned int tick = 0;											// °ÔÀÓ °æ°ú ½Ã°£
-unsigned int spon_tick = 0;										// ¸ó½ºÅÍ ½ºÆù ÁÖ±â
-char sprite_floor[MAP_X_MAX];									// ¹Ù´Ú ¹è¿­
+unsigned int tick = 0;											// ê²Œì„ ê²½ê³¼ ì‹œê°„
+unsigned int spon_tick = 0;										// ëª¬ìŠ¤í„° ìŠ¤í° ì£¼ê¸°
+char sprite_floor[MAP_X_MAX];									// ë°”ë‹¥ ë°°ì—´
 char mapData[MAP_X_MAX * (MAP_Y_MAX + 1)];						// array for graphics
 
-const short stat_enemy[2][7] ={			// mobsÀÇ hp, exp, size(x y), tick (2 3 4)
+const short stat_enemy[2][7] ={			// mobsì˜ hp, exp, size(x y), tick (2 3 4)
 	{150, 30, 4, 3, 0, 1000, 0},
 	{300, 50, 5, 5, 0, 500, 0}
 };
 const short stat_weapon[3] = { 5, 10, 15 };
 const char sprite_character[10] = " 0  | _^_";			// user character 3 * 3
 const char sprite_character_leg[2][3][4] = {
-	{"-^.", "_^\'", "_^."},								// ¿ŞÂÊ move½Ã user leg ¿òÁ÷ÀÓ ( 3 motions )
-	{".^-", "\'^_", ".^_"}								// ¿À¸¥ÂÊ move½Ã user leg ¿òÁ÷ÀÓ ( 3 motions )
+	{"-^.", "_^\'", "_^."},								// ì™¼ìª½ moveì‹œ user leg ì›€ì§ì„ ( 3 motions )
+	{".^-", "\'^_", ".^_"}								// ì˜¤ë¥¸ìª½ moveì‹œ user leg ì›€ì§ì„ ( 3 motions )
 };
 const char sprite_normalAttack[2][3][16] = {
-	{" .- o          ", " .   (   o \'   ", "         o \'-  "},		// ¿ŞÂÊ 3¿¬Å¸ ½Ã user attack ¿òÁ÷ÀÓ ( 3 motions )
-	{"o -.           ", "   . o   )   \' ", "     o      -\' "}			// ¿À¸¥ÂÊ 3¿¬Å¸ ½Ã user attack ¿òÁ÷ÀÓ ( 3 motions )
+	{" .- o          ", " .   (   o \'   ", "         o \'-  "},		// ì™¼ìª½ 3ì—°íƒ€ ì‹œ user attack ì›€ì§ì„ ( 3 motions )
+	{"o -.           ", "   . o   )   \' ", "     o      -\' "}			// ì˜¤ë¥¸ìª½ 3ì—°íƒ€ ì‹œ user attack ì›€ì§ì„ ( 3 motions )
 };
 const char sprite_weapon[2][3][4] = {
-	{"---", "--+", "<=+"},											// ¿ŞÂÊ ¹æÇâ ¹«±â sprite
-	{"---", "+--", "+=>"}											// ¿À¸¥ÂÊ ¹æÇâ ¹«±â sprite
+	{"---", "--+", "<=+"},											// ì™¼ìª½ ë°©í–¥ ë¬´ê¸° sprite
+	{"---", "+--", "+=>"}											// ì˜¤ë¥¸ìª½ ë°©í–¥ ë¬´ê¸° sprite
 };
-const char sprite_invenWeapon[3][11] = { "   /   /  ", "   /  '*. ", "  |   \"+\" " };			// weaponÃ¢¿¡ µé¾î°¥ ¹«±â sprite
+const char sprite_invenWeapon[3][11] = { "   /   /  ", "   /  '*. ", "  |   \"+\" " };			// weaponì°½ì— ë“¤ì–´ê°ˆ ë¬´ê¸° sprite
 const char sprite_enemy1[2][13] = { " __ (  )----", " __ [  ]\'--\'" };							// mob sprite
 
 /*
-	ÇÔ¼ö Á¤ÀÇ
+	í•¨ìˆ˜ ì •ì˜
 */
-void StartGame();					// °ÔÀÓ ½ÃÀÛ
-void UpdateGame();					// °ÔÀÓ Á¤º¸ ¾÷µ¥ÀÌÆ®
-void ExitGame();					// °ÔÀÓ Á¾·á
-void SetConsole();					// ÄÜ¼Ö Ã¢ ¼³Á¤
-void ControlUI();					// UI Á¤º¸ ¾÷µ¥ÀÌÆ®
-void ControlCharacter();			// user Á¤º¸ ¾÷µ¥ÀÌÆ®
-void ControlObject();				// mobs, items, particles Á¤º¸ ¾÷µ¥ÀÌÆ®
-void ControlItem(int index);		// item Á¤º¸ ¾÷µ¥ÀÌÆ®
-void ControlEnemy(int index);		// mob Á¤º¸ ¾÷µ¥ÀÌÆ®
-void ControlParticle(int index);	// particle Á¤º¸ ¾÷µ¥ÀÌÆ®
-void CreateObject(short x, short y, short kind);			// mobs, items, particles »ı¼º
-void RemoveObject(int index);								// mobs, items, particles Á¦°Å
-bool EnemyPosition(short x, short size_x);					// user¸¦ ¹Ù¶óº¸°íÀÖ´Â mobsÀÇ ¹æÇâ
-bool CollisionCheck(short coord1[], short coord2[], short size1[], short size2[]);		// user <-> objects Ãæµ¹ °Ë»ç
+void StartGame();					// ê²Œì„ ì‹œì‘
+void UpdateGame();					// ê²Œì„ ì •ë³´ ì—…ë°ì´íŠ¸
+void ExitGame();					// ê²Œì„ ì¢…ë£Œ
+void SetConsole();					// ì½˜ì†” ì°½ ì„¤ì •
+void ControlUI();					// UI ì •ë³´ ì—…ë°ì´íŠ¸
+void ControlCharacter();			// user ì •ë³´ ì—…ë°ì´íŠ¸
+void ControlObject();				// mobs, items, particles ì •ë³´ ì—…ë°ì´íŠ¸
+void ControlItem(int index);		// item ì •ë³´ ì—…ë°ì´íŠ¸
+void ControlEnemy(int index);		// mob ì •ë³´ ì—…ë°ì´íŠ¸
+void ControlParticle(int index);	// particle ì •ë³´ ì—…ë°ì´íŠ¸
+void CreateObject(short x, short y, short kind);			// mobs, items, particles ìƒì„±
+void RemoveObject(int index);								// mobs, items, particles ì œê±°
+bool EnemyPosition(short x, short size_x);					// userë¥¼ ë°”ë¼ë³´ê³ ìˆëŠ” mobsì˜ ë°©í–¥
+bool CollisionCheck(short coord1[], short coord2[], short size1[], short size2[]);		// user <-> objects ì¶©ëŒ ê²€ì‚¬
 void MoveControl(short coord[], float accel[], short size[], float* flyTime);			// motion Control
-void DrawBox(short x, short y, short size_x, short size_y);								// size_x, size_y Å©±âÀÇ »óÀÚ¸¦ x, y ÁÂÇ¥¿¡ draw
-void DrawNumber(short x, short y, int num);												// x, y ÁÂÇ¥¿¡ number¸¦ draw ( ¿ŞÂÊ Á¤·Ä )
-void DrawSprite(short x, short y, short size_x, short size_y, const char spr[]);		// size_x, size_y Å©±âÀÇ sprite¸¦ x, y ÁÂÇ¥¿¡ draw
-void FillMap(char str[], char str_s, int max_value);											// ¹è¿­ ÃÊ±âÈ­
-void EditMap(short x, short y, char str);														// mapData¿¡¼­ x, y ÁÂÇ¥ÀÇ ³»¿ë ¼öÁ¤
-int NumLen(int num);																				// ¼ıÀÚ ±æÀÌ return
-void gotoxy(int x, int y);																			// ÄÜ¼Ö Ä¿¼­ À§Ä¡ ÀÌµ¿
-int menu();				// ½ÃÀÛ ¸Ş´º
-void ViewScore();		// DB¿Í ¿¬µ¿ÇÏ¿© ½ºÄÚ¾î Ç¥½Ã
-void InputScore();		// DB¿Í ¿¬µ¿ÇÏ¿© ½ºÄÚ¾î DB¿¡ ÀÔ·Â
+void DrawBox(short x, short y, short size_x, short size_y);								// size_x, size_y í¬ê¸°ì˜ ìƒìë¥¼ x, y ì¢Œí‘œì— draw
+void DrawNumber(short x, short y, int num);												// x, y ì¢Œí‘œì— numberë¥¼ draw ( ì™¼ìª½ ì •ë ¬ )
+void DrawSprite(short x, short y, short size_x, short size_y, const char spr[]);		// size_x, size_y í¬ê¸°ì˜ spriteë¥¼ x, y ì¢Œí‘œì— draw
+void FillMap(char str[], char str_s, int max_value);											// ë°°ì—´ ì´ˆê¸°í™”
+void EditMap(short x, short y, char str);														// mapDataì—ì„œ x, y ì¢Œí‘œì˜ ë‚´ìš© ìˆ˜ì •
+int NumLen(int num);																				// ìˆ«ì ê¸¸ì´ return
+void gotoxy(int x, int y);																			// ì½˜ì†” ì»¤ì„œ ìœ„ì¹˜ ì´ë™
+int menu();				// ì‹œì‘ ë©”ë‰´
+void ViewScore();		// DBì™€ ì—°ë™í•˜ì—¬ ìŠ¤ì½”ì–´ í‘œì‹œ
+void InputScore();		// DBì™€ ì—°ë™í•˜ì—¬ ìŠ¤ì½”ì–´ DBì— ì…ë ¥
 
 int main() {
-	StartGame();			// main ÇÔ¼ö ½ÇÇà ½Ã °¢Á¾ ¼³Á¤, ÃÊ±âÈ­ ¼öÇàÀ» À§ÇØ
+	StartGame();			// main í•¨ìˆ˜ ì‹¤í–‰ ì‹œ ê°ì¢… ì„¤ì •, ì´ˆê¸°í™” ìˆ˜í–‰ì„ ìœ„í•´
 
 	while (TRUE) {
-		if (tick + 30 < GetTickCount64()) {				// ½Ã°£ÀÌ 30ms Èê·¶À»¶§
-			tick = GetTickCount64();					// ÇöÀç ½Ã°£À» tickÀ¸·Î
+		if (tick + 30 < GetTickCount64()) {				// ì‹œê°„ì´ 30ms í˜ë €ì„ë•Œ
+			tick = GetTickCount64();					// í˜„ì¬ ì‹œê°„ì„ tickìœ¼ë¡œ
 
-			UpdateGame();								// °ÔÀÓ Á¤º¸ update
+			UpdateGame();								// ê²Œì„ ì •ë³´ update
 
-			if (tick == 0)								// update µµÁß tickÀÌ 0ÀÌ µÇ¸é break
+			if (tick == 0)								// update ë„ì¤‘ tickì´ 0ì´ ë˜ë©´ break
 				break;
 		}
 	}
 
-	ExitGame();											// tickÀÌ 0ÀÏ °æ¿ì, °ÔÀÓ Á¾·á
+	ExitGame();											// tickì´ 0ì¼ ê²½ìš°, ê²Œì„ ì¢…ë£Œ
 	return 0;
 }
 
 void gotoxy(int x, int y) {
-	COORD Pos = { x, y };		// ÀÌ Pos °ªÀ» x, y·Î
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);		// ÄÜ¼ÖÀÇ Ä¿¼­¸¦ Pos·Î ÀÌµ¿
+	COORD Pos = { x, y };		// ì´ Pos ê°’ì„ x, yë¡œ
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);		// ì½˜ì†”ì˜ ì»¤ì„œë¥¼ Posë¡œ ì´ë™
 }
 
-// ¸Ş´º Ãâ·Â ÇÔ¼ö
+// ë©”ë‰´ ì¶œë ¥ í•¨ìˆ˜
 int menu() {
-	// ÁÂÇ¥¸¦ ÀÌµ¿ÇÏ¸ç ¸Ş´º¸¦ Ãâ·Â
+	// ì¢Œí‘œë¥¼ ì´ë™í•˜ë©° ë©”ë‰´ë¥¼ ì¶œë ¥
 	gotoxy(35, 8);
 
 	printf("Monster Hunter!");
@@ -162,7 +162,7 @@ int menu() {
 	gotoxy(35, 18);
 	printf(">>> ");
 
-	// ¸Ş´º¿¡¼­ ÀÔ·Â¹ŞÀº °ªÀ» return
+	// ë©”ë‰´ì—ì„œ ì…ë ¥ë°›ì€ ê°’ì„ return
 	int re;
 	scanf("%d", &re);
 	rewind(stdin);
@@ -172,53 +172,53 @@ int menu() {
 	system("cls");
 }
 
-// Score Ç¥½Ã ÇÔ¼ö
+// Score í‘œì‹œ í•¨ìˆ˜
 void ViewScore() {
 	MYSQL* connection = NULL, conn;		// connection: mysql connection, conn: mysql init
-	MYSQL_RES* sql_result;				// query¿¡ ´ëÇÑ result
-	MYSQL_ROW sql_row;					// result¸¦ row·Î fetchÇÑ ¹è¿­
+	MYSQL_RES* sql_result;				// queryì— ëŒ€í•œ result
+	MYSQL_ROW sql_row;					// resultë¥¼ rowë¡œ fetchí•œ ë°°ì—´
 
-	int query_stat = 0;					// queryÀÇ °á°ú (¼º°ø or ½ÇÆĞ)
+	int query_stat = 0;					// queryì˜ ê²°ê³¼ (ì„±ê³µ or ì‹¤íŒ¨)
 
 	mysql_init(&conn);		// mysql initialization
 
-	mysql_options(&conn, MYSQL_SET_CHARSET_NAME, "euckr");			// mysql charset_nameÀ» euckr·Î
-	mysql_options(&conn, MYSQL_INIT_COMMAND, "SET NAMES euckr");	// mysql init_command¸¦ euckr·Î
+	mysql_options(&conn, MYSQL_SET_CHARSET_NAME, "euckr");			// mysql charset_nameì„ euckrë¡œ
+	mysql_options(&conn, MYSQL_INIT_COMMAND, "SET NAMES euckr");	// mysql init_commandë¥¼ euckrë¡œ
 
-	// mysql connection ºÎºĞ
+	// mysql connection ë¶€ë¶„
 	connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
 	
-	// connection ½ÇÆĞ
+	// connection ì‹¤íŒ¨
 	if (connection == NULL) {
 		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
 		return 1;
 	}
 
-	// select Äõ¸® Àü´Ş
+	// select ì¿¼ë¦¬ ì „ë‹¬
 	query_stat = mysql_query(connection, "select * from scoretable order by score desc limit 10");
 	
-	// query statÀÌ 0ÀÌ ¾Æ´Ò °æ¿ì -> query Àü´Ş °úÁ¤¿¡¼­ ¿¡·¯ ¹ß»ı
+	// query statì´ 0ì´ ì•„ë‹ ê²½ìš° -> query ì „ë‹¬ ê³¼ì •ì—ì„œ ì—ëŸ¬ ë°œìƒ
 	if (query_stat != 0) {
 		fprintf(stderr, "Mysql query error : %s", mysql_error(&conn));
 		return 1;
 	}
 
-	// query result ÀúÀå
+	// query result ì €ì¥
 	sql_result = mysql_store_result(connection);
 	system("cls");
 	gotoxy(38, 8);
 	printf("Top 10 Users!\n");
 	gotoxy(25, 10);
-	printf("¦£¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¨¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¤\n");
+	printf("â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”\n");
 	int i = 11;
-	// sql_result¿¡¼­ row¸¦ »Ì¾Æ¼­ sql_row¿¡ ÀúÀåÇÏ´Âµ¥ ±× °ªÀÌ NULLÀÌ ¾Æ´Ò¶§ ±îÁö -> ¸ğµç result °ª¿¡ ´ëÇÑ row¸¦ Ãâ·Â
+	// sql_resultì—ì„œ rowë¥¼ ë½‘ì•„ì„œ sql_rowì— ì €ì¥í•˜ëŠ”ë° ê·¸ ê°’ì´ NULLì´ ì•„ë‹ë•Œ ê¹Œì§€ -> ëª¨ë“  result ê°’ì— ëŒ€í•œ rowë¥¼ ì¶œë ¥
 	while ((sql_row = mysql_fetch_row(sql_result)) != NULL) {
 		gotoxy(25, i);
-		printf("¦¢\t%s\t\t¦¢\t%s\t¦¢\n", sql_row[0], sql_row[1]);		// sql_row[0]: name, sql_row[1]: score
+		printf("â”‚\t%s\t\tâ”‚\t%s\tâ”‚\n", sql_row[0], sql_row[1]);		// sql_row[0]: name, sql_row[1]: score
 		i++;
 	}
 	gotoxy(25, i);
-	printf("¦¦¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦ª¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¡¦¥\n");
+	printf("â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”´â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜\n");
 
 	// sql_result free
 	mysql_free_result(sql_result);
@@ -227,50 +227,50 @@ void ViewScore() {
 	mysql_close(connection);
 }
 
-// score ÀúÀå ÇÔ¼ö
+// score ì €ì¥ í•¨ìˆ˜
 void InputScore() {
 	MYSQL* connection = NULL, conn;		// connection: mysql connection, conn: mysql init
 
-	int query_stat = 0;					// queryÀÇ °á°ú (¼º°ø or ½ÇÆĞ)
-	char query[255];					// Àü´ŞÇÒ query
+	int query_stat = 0;					// queryì˜ ê²°ê³¼ (ì„±ê³µ or ì‹¤íŒ¨)
+	char query[255];					// ì „ë‹¬í•  query
 
 	mysql_init(&conn);		// mysql initialization
 
-	mysql_options(&conn, MYSQL_SET_CHARSET_NAME, "euckr");			// mysql charset_nameÀ» euckr·Î
-	mysql_options(&conn, MYSQL_INIT_COMMAND, "SET NAMES euckr");	// mysql init_command¸¦ euckr·Î
+	mysql_options(&conn, MYSQL_SET_CHARSET_NAME, "euckr");			// mysql charset_nameì„ euckrë¡œ
+	mysql_options(&conn, MYSQL_INIT_COMMAND, "SET NAMES euckr");	// mysql init_commandë¥¼ euckrë¡œ
 
-	// mysql connection ºÎºĞ
+	// mysql connection ë¶€ë¶„
 	connection = mysql_real_connect(&conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char*)NULL, 0);
 
-	// connection ½ÇÆĞ
+	// connection ì‹¤íŒ¨
 	if (connection == NULL) {
 		fprintf(stderr, "Mysql connection error : %s", mysql_error(&conn));
 		return 1;
 	}
 
-	// name choppingÀ» À§ÇØ heap ÇÒ´ç
+	// name choppingì„ ìœ„í•´ heap í• ë‹¹
 	char* name = malloc(sizeof(char) * strlen(character.name));
 	CHOP(name);
 
-	// query¸¦ Àü´ŞÇÒ query º¯¼ö¿¡ insert¹® ÀúÀå
+	// queryë¥¼ ì „ë‹¬í•  query ë³€ìˆ˜ì— insertë¬¸ ì €ì¥
 	sprintf(query, "insert into scoretable values " "('%s', '%d')", character.name, character.score);
-	// mysqlÀÇ connection¿¡ query¸¦ Àü´Ş
+	// mysqlì˜ connectionì— queryë¥¼ ì „ë‹¬
 	query_stat = mysql_query(connection, query);
-	// Àü´ŞµÈ query¿¡ ¿¡·¯ ¹ß»ı ½Ã
+	// ì „ë‹¬ëœ queryì— ì—ëŸ¬ ë°œìƒ ì‹œ
 	if (query_stat != 0) {
 		fprintf(stderr, "Mysql query error : %s", mysql_error(&conn));
 		return 1;
 	}
 
-	// ÇÒ´ç¹ŞÀº º¯¼ö free
+	// í• ë‹¹ë°›ì€ ë³€ìˆ˜ free
 	free(name);
 	// mysql connection close
 	mysql_close(connection);
 }
 
 void StartGame() {
-	SetConsole();								// console ¼³Á¤ ( Ä¿¼­ ¾Èº¸ÀÌ°Ô, title )
-	srand((unsigned int)time(NULL));			// rand ÇÔ¼ö¸¦ À§ÇÑ srand
+	SetConsole();								// console ì„¤ì • ( ì»¤ì„œ ì•ˆë³´ì´ê²Œ, title )
+	srand((unsigned int)time(NULL));			// rand í•¨ìˆ˜ë¥¼ ìœ„í•œ srand
 
 	int ch = 0;
 
@@ -282,7 +282,7 @@ void StartGame() {
 		}
 		// view score
 		else if (ch == 2) {
-			ViewScore();		// db¿¡ ÀúÀåµÈ µ¥ÀÌÅÍ Ç¥½Ã
+			ViewScore();		// dbì— ì €ì¥ëœ ë°ì´í„° í‘œì‹œ
 			_getch();
 			system("cls");
 		}
@@ -290,13 +290,13 @@ void StartGame() {
 		else if (ch == 3) {
 			system("cls");
 			gotoxy(35, 10);
-			printf("¡ç, ¡æ:\tÀÌµ¿");
+			printf("â†, â†’:\tì´ë™");
 			gotoxy(35, 12);
-			printf("¡è:\tÁ¡ÇÁ");
+			printf("â†‘:\tì í”„");
 			gotoxy(35, 14);
-			printf("z:\t°ø°İ");
+			printf("z:\tê³µê²©");
 			gotoxy(35, 16);
-			printf("x:\t´ë½¬");
+			printf("x:\tëŒ€ì‰¬");
 			gotoxy(35, 18);
 			_getch();
 			system("cls");
@@ -310,46 +310,46 @@ void StartGame() {
 	system("cls");
 	gotoxy(32, 13);
 	printf("Enter your name: ");
-	scanf("%[^\n]s", character.name);		// ÀÌ¸§À» character ±¸Á¶Ã¼¿¡ ÀúÀå
+	scanf("%[^\n]s", character.name);		// ì´ë¦„ì„ character êµ¬ì¡°ì²´ì— ì €ì¥
 	rewind(stdin);
 
-	gotoxy(0, 0);									// console Ä¿¼­¸¦ 0, 0À¸·Î ÀÌµ¿
+	gotoxy(0, 0);									// console ì»¤ì„œë¥¼ 0, 0ìœ¼ë¡œ ì´ë™
 
-	FillMap(sprite_floor, '=', MAP_X_MAX);	// ¹Ù´Ú ¹è¿­ ÃÊ±âÈ­
+	FillMap(sprite_floor, '=', MAP_X_MAX);	// ë°”ë‹¥ ë°°ì—´ ì´ˆê¸°í™”
 
-	objects = (Object**)malloc(sizeof(Object*) * OBJECT_MAX);		// objects ¸¦ ObjectÅ©±âÀÇ 32¸¸Å­ ÇÒ´ç -> 32°³ÀÇ object ÀúÀå °¡´É
-	memset(objects, 0, sizeof(Object*) * OBJECT_MAX);				// ÃÊ±âÈ­
+	objects = (Object**)malloc(sizeof(Object*) * OBJECT_MAX);		// objects ë¥¼ Objectí¬ê¸°ì˜ 32ë§Œí¼ í• ë‹¹ -> 32ê°œì˜ object ì €ì¥ ê°€ëŠ¥
+	memset(objects, 0, sizeof(Object*) * OBJECT_MAX);				// ì´ˆê¸°í™”
 }
 
 void UpdateGame() {
-	FillMap(mapData, ' ', MAP_X_MAX * MAP_Y_MAX);	// mapDataÀÇ ³»¿ëÀ» °ø¹éÀ¸·Î ÃÊ±âÈ­
+	FillMap(mapData, ' ', MAP_X_MAX * MAP_Y_MAX);	// mapDataì˜ ë‚´ìš©ì„ ê³µë°±ìœ¼ë¡œ ì´ˆê¸°í™”
 
-	ControlCharacter();	// mapData(character) ¸¦ ¾÷µ¥ÀÌÆ®
-	ControlObject();		// mapData(enemy, projecticles, particles, etc...) ¸¦ ¾÷µ¥ÀÌÆ®
-	ControlUI();				// mapData(UI) ¸¦ ¾÷µ¥ÀÌÆ®
+	ControlCharacter();	// mapData(character) ë¥¼ ì—…ë°ì´íŠ¸
+	ControlObject();		// mapData(enemy, projecticles, particles, etc...) ë¥¼ ì—…ë°ì´íŠ¸
+	ControlUI();				// mapData(UI) ë¥¼ ì—…ë°ì´íŠ¸
 
-	if (spon_tick + SPAWN_TIME < tick) {		// ½ºÆù ÁÖ±â°¡ Áö³ª¸é 
-		spon_tick = tick;								// ÇöÀç ½Ã°£À» ½ºÆù ÁÖ±â·Î Àç¼³Á¤
-		CreateObject(rand() % 90, 10, 100);		// mob ¼ÒÈ¯
-		CreateObject(rand() % 90, 10, 100);		// mob ¼ÒÈ¯
-		CreateObject(rand() % 90, 10, 100);		// mob ¼ÒÈ¯
+	if (spon_tick + SPAWN_TIME < tick) {		// ìŠ¤í° ì£¼ê¸°ê°€ ì§€ë‚˜ë©´ 
+		spon_tick = tick;								// í˜„ì¬ ì‹œê°„ì„ ìŠ¤í° ì£¼ê¸°ë¡œ ì¬ì„¤ì •
+		CreateObject(rand() % 90, 10, 100);		// mob ì†Œí™˜
+		CreateObject(rand() % 90, 10, 100);		// mob ì†Œí™˜
+		CreateObject(rand() % 90, 10, 100);		// mob ì†Œí™˜
 	}
 
-	printf("%s", mapData);	// console¿¡ mapData Print
+	printf("%s", mapData);	// consoleì— mapData Print
 }
 
 void ExitGame() {
 	for (int i = 0; i < OBJECT_MAX; i++) {
 		if (objects[i])
-			free(objects[i]);			// free°¡ µÇÁö ¾ÊÀº object ±¸Á¶Ã¼¸¦ free
+			free(objects[i]);			// freeê°€ ë˜ì§€ ì•Šì€ object êµ¬ì¡°ì²´ë¥¼ free
 	}
 
-	free(objects);					// objects ±¸Á¶Ã¼¸¦ free
+	free(objects);					// objects êµ¬ì¡°ì²´ë¥¼ free
 
 	system("cls");
 	gotoxy(35, 8);
 	printf("Game Over!");
-	InputScore();					// db¿¡ µ¥ÀÌÅÍ ÀúÀå
+	InputScore();					// dbì— ë°ì´í„° ì €ì¥
 
 	gotoxy(35, 10);
 	printf("Save Success!\n");
@@ -357,30 +357,30 @@ void ExitGame() {
 }
 
 void SetConsole() {
-	system("mode con:cols=96 lines=32");			// Çà 96, ¿­ 32 Å©±â
-	system("title Monster Hunter");								// title ¼³Á¤
+	system("mode con:cols=96 lines=32");			// í–‰ 96, ì—´ 32 í¬ê¸°
+	system("title Monster Hunter");								// title ì„¤ì •
 
 	HANDLE hConsole;
 	CONSOLE_CURSOR_INFO ConsoleCursor;
 
 	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	ConsoleCursor.bVisible = 0;							// Ä¿¼­ ¾Èº¸ÀÌ°Ô
-	ConsoleCursor.dwSize = 1;							// Ä¿¼­ µÎ²² 1
+	ConsoleCursor.bVisible = 0;							// ì»¤ì„œ ì•ˆë³´ì´ê²Œ
+	ConsoleCursor.dwSize = 1;							// ì»¤ì„œ ë‘ê»˜ 1
 
-	SetConsoleCursorInfo(hConsole, &ConsoleCursor);		// console cursor info¸¦ setting
+	SetConsoleCursorInfo(hConsole, &ConsoleCursor);		// console cursor infoë¥¼ setting
 }
 
-// mapData¿¡ UI Á¤º¸¸¦ inputÇÏ´Â ÇÔ¼ö
+// mapDataì— UI ì •ë³´ë¥¼ inputí•˜ëŠ” í•¨ìˆ˜
 void ControlUI() {
-	int expPer = roundf(character.exp[1] * 100 / character.exp[0]);			// exp ÇöÀç %
-	int len;			// ÀÌÀü spriteÀÇ ±æÀÌ
+	int expPer = roundf(character.exp[1] * 100 / character.exp[0]);			// exp í˜„ì¬ %
+	int len;			// ì´ì „ spriteì˜ ê¸¸ì´
 
-	DrawSprite(1, FLOOR_Y, MAP_X_MAX, 1, sprite_floor);	// ¹Ù´Ú draw
+	DrawSprite(1, FLOOR_Y, MAP_X_MAX, 1, sprite_floor);	// ë°”ë‹¥ draw
 
 	DrawBox(1, 1, 35, 8);				// UI box draw 35 * 8
 
-	// invenÀÇ ¹«±â draw
+	// invenì˜ ë¬´ê¸° draw
 	//  ex)
 	// 	Weapon
 	//  .-----.
@@ -390,9 +390,9 @@ void ControlUI() {
 	//
 	DrawBox(27, 4, 7, 4);				// box draw 7 * 4
 	DrawSprite(28, 5, 5, 2, sprite_invenWeapon[character.weapon]);		// weapon sprite draw
-	DrawSprite(28, 3, 6, 1, "Weapon");			// "Weapon"¹®ÀÚ draw
+	DrawSprite(28, 3, 6, 1, "Weapon");			// "Weapon"ë¬¸ì draw
 
-	// ÀÌ¸§, ·¹º§, hp, mp, °æÇèÄ¡ draw
+	// ì´ë¦„, ë ˆë²¨, hp, mp, ê²½í—˜ì¹˜ draw
 	// ex)
 	// 2 "test" LV.1 (0%)													SCORE: 0
 	// 3 
@@ -407,10 +407,10 @@ void ControlUI() {
 	DrawSprite(len, 2, 7, 1, "\" LV.");	len += 5;								// " LV.
 	DrawNumber(len, 2, character.lv);	len += NumLen(character.lv);		// 1
 	DrawSprite(len, 2, 2, 1, " (");	len += 2;										//  (
-	if (!expPer) {									// exp°¡ 0ÀÏ°æ¿ì
+	if (!expPer) {									// expê°€ 0ì¼ê²½ìš°
 		EditMap(len, 2, '0');	len++;		// 0
 	}
-	else {											// ¾Æ´Ï¸é
+	else {											// ì•„ë‹ˆë©´
 		DrawNumber(len, 2, expPer);	len += NumLen(expPer);			// expPer draw
 	}
 	DrawSprite(len, 2, 2, 1, "%)");			// %)
@@ -436,61 +436,61 @@ void ControlUI() {
 	DrawNumber(11, 7, character.power);
 }
 
-// mapData¿¡ userÀÇ ¿òÁ÷ÀÓ, °ø°İ¸ğ¼ÇÀ» inputÇÏ´Â ÇÔ¼ö
+// mapDataì— userì˜ ì›€ì§ì„, ê³µê²©ëª¨ì…˜ì„ inputí•˜ëŠ” í•¨ìˆ˜
 void ControlCharacter() {
-	// ÀÌµ¿, °ø°İ
+	// ì´ë™, ê³µê²©
 	bool move = FALSE, attack = FALSE;
-	// Ä³¸¯ÅÍ x, y ÁÂÇ¥
+	// ìºë¦­í„° x, y ì¢Œí‘œ
 	int x = character.coord[0], y = character.coord[1];
 
-	// ·¹º§¾÷
+	// ë ˆë²¨ì—…
 	if (character.exp[1] >= character.exp[0]) {
 		character.hp[0] += 10; character.mp[0] += 5; character.power++;				// hp+10, mp+5, power+1
-		character.lv++; character.exp[1] = 0; character.exp[0] += character.lv * 10;		// lv+1, exp = 0, ÇÊ¿ä exp -> ·¹º§*10
+		character.lv++; character.exp[1] = 0; character.exp[0] += character.lv * 10;		// lv+1, exp = 0, í•„ìš” exp -> ë ˆë²¨*10
 	}
 
-	// hp,mp ¸®Á¨
-	if (character.tick[0] + 900 < tick) {									// 900ms ¸¶´Ù
-		character.tick[0] = tick;											// hp&mp gen tickÀ» ÇöÀç½Ã°£À¸·Î
-		character.hp[1] += roundf(character.hp[0] * 0.01);			// ÇöÀç hp¸¦ ÃÖ´ëhpÀÇ 0.01¸¸Å­ È¸º¹
-		character.mp[1] += roundf(character.mp[0] * 0.05);		// ÇöÀç mp¸¦ ÃÖ´ëmpÀÇ 0.05¸¸Å­ È¸º¹
+	// hp,mp ë¦¬ì  
+	if (character.tick[0] + 900 < tick) {									// 900ms ë§ˆë‹¤
+		character.tick[0] = tick;											// hp&mp gen tickì„ í˜„ì¬ì‹œê°„ìœ¼ë¡œ
+		character.hp[1] += roundf(character.hp[0] * 0.01);			// í˜„ì¬ hpë¥¼ ìµœëŒ€hpì˜ 0.01ë§Œí¼ íšŒë³µ
+		character.mp[1] += roundf(character.mp[0] * 0.05);		// í˜„ì¬ mpë¥¼ ìµœëŒ€mpì˜ 0.05ë§Œí¼ íšŒë³µ
 	}
-	// hp°¡ ÃÖ´ëÀÏ °æ¿ì -> ÃÖ´ëhp¸¦ ÇöÀçhp·Î
+	// hpê°€ ìµœëŒ€ì¼ ê²½ìš° -> ìµœëŒ€hpë¥¼ í˜„ì¬hpë¡œ
 	if (character.hp[1] > character.hp[0])
 		character.hp[1] = character.hp[0];
-	// mp°¡ ÃÖ´ëÀÏ °æ¿ì -> ÃÖ´ëmp¸¦ ÇöÀçmp·Î
+	// mpê°€ ìµœëŒ€ì¼ ê²½ìš° -> ìµœëŒ€mpë¥¼ í˜„ì¬mpë¡œ
 	if (character.mp[1] > character.mp[0])
 		character.mp[1] = character.mp[0];
 
-	// hp°¡ 1º¸´Ù ³·À» °æ¿ì -> °ÔÀÓ¿À¹ö ( tick = 0 )
+	// hpê°€ 1ë³´ë‹¤ ë‚®ì„ ê²½ìš° -> ê²Œì„ì˜¤ë²„ ( tick = 0 )
 	if (character.hp[1] < 1)
 		tick = 0;
 
-	// ÇÇ°İ tickÀÌ 0º¸´Ù Å¬°æ¿ì 1 °¨¼Ò
+	// í”¼ê²© tickì´ 0ë³´ë‹¤ í´ê²½ìš° 1 ê°ì†Œ
 	if (character.tick[5] > 0)
 		character.tick[5] -= 1;
 
-	// 'z' Å°¸¦ ´©¸£°í ÀÖÀ¸¸ç, Ã¼°øÀ» ÇÏ°í ÀÖÁö ¾Ê´Â °æ¿ì -> °ø°İ
+	// 'z' í‚¤ë¥¼ ëˆ„ë¥´ê³  ìˆìœ¼ë©°, ì²´ê³µì„ í•˜ê³  ìˆì§€ ì•ŠëŠ” ê²½ìš° -> ê³µê²©
 	if (GetAsyncKeyState(0x5A) & 0x8000 && character.flyTime == 0) {
 		attack = TRUE;
 		character.motion[1] = TRUE;
 	}
 
-	// character.motion[1] = TRUEÀÏ °æ¿ì
+	// character.motion[1] = TRUEì¼ ê²½ìš°
 	if (character.motion[1]) {
-		// °ø°İ ¿òÁ÷ÀÓ. 150ms ¸¶´Ù °»½Å ( ¸ğ¼Ç Ã³¸® ½Ã°£ )
+		// ê³µê²© ì›€ì§ì„. 150ms ë§ˆë‹¤ ê°±ì‹  ( ëª¨ì…˜ ì²˜ë¦¬ ì‹œê°„ )
 		if (tick > character.tick[2] + 150) {
-			character.tick[2] = tick;		// ÇöÀç ½Ã°£À» attack tickÀ¸·Î sync
-			character.motion[2]++;		// ¿¬¼Ó attack È½¼ö
+			character.tick[2] = tick;		// í˜„ì¬ ì‹œê°„ì„ attack tickìœ¼ë¡œ sync
+			character.motion[2]++;		// ì—°ì† attack íšŸìˆ˜
 		}
 
-		// °ø°İÀ» ¿¬¼ÓÀ¸·Î 3¹ø ´©¸¥ ÈÄ ´ÙÀ½ Å°°¡
+		// ê³µê²©ì„ ì—°ì†ìœ¼ë¡œ 3ë²ˆ ëˆ„ë¥¸ í›„ ë‹¤ìŒ í‚¤ê°€
 		if (character.motion[2] > 3) {
-			// °ø°İÀÏ °æ¿ì
+			// ê³µê²©ì¼ ê²½ìš°
 			if (attack) {
 				character.motion[2] = 1; character.motion[3]++;		// motion[2]: 4 -> 1, motion[3]: 0 -> 1
 			}
-			// °ø°İÀÌ ¾Æ´Ò °æ¿ì
+			// ê³µê²©ì´ ì•„ë‹ ê²½ìš°
 			else {
 				character.motion[1] = FALSE; character.motion[2] = 0; character.motion[3] = 1;
 				// motion[1]: 1 -> 0, motion[2]: 4 -> 0, motion[3]: 1
@@ -500,71 +500,71 @@ void ControlCharacter() {
 				character.motion[3] = 1;			// motion[3]: 4 -> 1
 		}
 	}
-	// character.motion[1] = FALSE ÀÏ °æ¿ì
+	// character.motion[1] = FALSE ì¼ ê²½ìš°
 	else {
 		// move left
 		if (GetAsyncKeyState(VK_LEFT) & 0x8000 && x > 1) {
-			// °¡¼Óµµ°¡ -1 ÀÌ»óÀÏ¶§ -1·Î
+			// ê°€ì†ë„ê°€ -1 ì´ìƒì¼ë•Œ -1ë¡œ
 			if (character.accel[0] > -1)
 				character.accel[0] = -1;
 
-			// direction = FALSE -> ¿ŞÂÊ
+			// direction = FALSE -> ì™¼ìª½
 			character.direction = FALSE;
 			move = TRUE;
 		}
 
 		// move right
 		if (GetAsyncKeyState(VK_RIGHT) & 0x8000 && x < MAP_X_MAX - 2) {
-			// °¡¼Óµµ°¡ 1 ¹Ì¸¸ÀÏ¶§ 1·Î
+			// ê°€ì†ë„ê°€ 1 ë¯¸ë§Œì¼ë•Œ 1ë¡œ
 			if (character.accel[0] < 1)
 				character.accel[0] = 1;
 
-			// direction = TRUE -> ¿À¸¥ÂÊ
+			// direction = TRUE -> ì˜¤ë¥¸ìª½
 			character.direction = TRUE;
 			move = TRUE;
 		}
 
-		// 'x' Å°¸¦ ´©¸£°í ÀÖÀ½ -> dash
+		// 'x' í‚¤ë¥¼ ëˆ„ë¥´ê³  ìˆìŒ -> dash
 		if (GetAsyncKeyState(0x58) & 0x8000 && character.tick[3] + 1200 <= tick && character.mp[1] >= 10) {
-			// x°¡¼Óµµ¸¦ 3(¿À¸¥ÂÊ) or -3(¿ŞÂÊ) À¸·Î ¼³Á¤
+			// xê°€ì†ë„ë¥¼ 3(ì˜¤ë¥¸ìª½) or -3(ì™¼ìª½) ìœ¼ë¡œ ì„¤ì •
 			character.accel[0] = character.direction * 6 - 3;
-			// dash tickÀ» ÇöÀç ½Ã°£À¸·Î
+			// dash tickì„ í˜„ì¬ ì‹œê°„ìœ¼ë¡œ
 			character.tick[3] = tick;
-			// mp 10 ¼Ò¸ğ
+			// mp 10 ì†Œëª¨
 			character.mp[1] -= 10;
 		}
 	}
 
-	// Ä³¸¯ÅÍ Áß½É yÁÂÇ¥¿¡¼­ + 3ÇÑ °ªÀÌ floor °ª°ú °°°í ¹æÇâÅ° À­Å°¸¦ ´©¸¥ °æ¿ì -> jump
+	// ìºë¦­í„° ì¤‘ì‹¬ yì¢Œí‘œì—ì„œ + 3í•œ ê°’ì´ floor ê°’ê³¼ ê°™ê³  ë°©í–¥í‚¤ ìœ—í‚¤ë¥¼ ëˆ„ë¥¸ ê²½ìš° -> jump
 	if (GetAsyncKeyState(VK_UP) & 0x8000 && y + 3 == FLOOR_Y)
 		character.accel[1] = -1.75;
 
-	// ´Ù¸® ¿òÁ÷ÀÓ. 90ms ¸¶´Ù °»½Å
+	// ë‹¤ë¦¬ ì›€ì§ì„. 90ms ë§ˆë‹¤ ê°±ì‹ 
 	if (tick > character.tick[1] + 90) {
 		character.tick[1] = tick;
 
 		// motion[0]: 1 -> 2 -> 3 -> 4 -> 1 -> 2 -> 3 -> 4
-		// ºÎµå·¯¿î ¿òÁ÷ÀÓÀ» À§ÇØ 3°¡Áö ¸ğ¼ÇÀ» »ç¿ë
+		// ë¶€ë“œëŸ¬ìš´ ì›€ì§ì„ì„ ìœ„í•´ 3ê°€ì§€ ëª¨ì…˜ì„ ì‚¬ìš©
 		if (move == TRUE)
 			character.motion[0]++;
-		// move°¡ FALSEÀÏ °æ¿ì motion[0] = 0
+		// moveê°€ FALSEì¼ ê²½ìš° motion[0] = 0
 		else
 			character.motion[0] = 0;
 
-		// 1~4 loopÃ³¸®
+		// 1~4 loopì²˜ë¦¬
 		if (character.motion[0] > 3)
 			character.motion[0] = 1;
 	}
 
-	// user°¡ ¿òÁ÷ÀÎ °ªÀ» accelÀ» ÀÌ¿ëÇÏ¿© coord °ª ¼öÁ¤.
-	// if, jumpÀÏ °æ¿ì flyTime°ú accel[1]À» ÀÌ¿ëÇÏ¿© coord °ªÀ» ¼öÁ¤.
+	// userê°€ ì›€ì§ì¸ ê°’ì„ accelì„ ì´ìš©í•˜ì—¬ coord ê°’ ìˆ˜ì •.
+	// if, jumpì¼ ê²½ìš° flyTimeê³¼ accel[1]ì„ ì´ìš©í•˜ì—¬ coord ê°’ì„ ìˆ˜ì •.
 	MoveControl(character.coord, character.accel, character.size, &character.flyTime);	
 
-	// ÇÇ°İ tickÀÌ Â¦¼öÀÏ ¶§ -> ±ôºıÀÓÀ» ±¸ÇöÇÏ±â À§ÇØ
+	// í”¼ê²© tickì´ ì§ìˆ˜ì¼ ë•Œ -> ê¹œë¹¡ì„ì„ êµ¬í˜„í•˜ê¸° ìœ„í•´
 	if (character.tick[5] % 2 == 0) {
 		DrawSprite(x, y, character.size[0], character.size[1], sprite_character);	//draw character sprite
 
-		// characterÀÇ ¹æÇâ¿¡ µû¸¥ µî ¹æÇâ
+		// characterì˜ ë°©í–¥ì— ë”°ë¥¸ ë“± ë°©í–¥
 		if (character.direction) {
 			EditMap(x, y + 1, '(');
 		}
@@ -572,31 +572,31 @@ void ControlCharacter() {
 			EditMap(x + 2, y + 1, ')');
 		}
 
-		// ¿À¸¥ÂÊÀ¸·Î °¡´Â ´ë½¬
+		// ì˜¤ë¥¸ìª½ìœ¼ë¡œ ê°€ëŠ” ëŒ€ì‰¬
 		if (character.accel[0] > 1)
 			DrawSprite(x - 2, y, 1, 3, "===");
-		// ¿ŞÂÊÀ¸·Î °¡´Â ´ë½¬
+		// ì™¼ìª½ìœ¼ë¡œ ê°€ëŠ” ëŒ€ì‰¬
 		if (character.accel[0] < -1)
 			DrawSprite(x + 4, y, 1, 3, "===");
 
 		// draw attack motion
-		// °ø°İÀÌ TRUE°í, motion[2]°¡ 0º¸´Ù Å¬ °æ¿ì
+		// ê³µê²©ì´ TRUEê³ , motion[2]ê°€ 0ë³´ë‹¤ í´ ê²½ìš°
 		if (character.motion[1] && character.motion[2] > 0) {
-			// 3¿¬¼Ó °ø°İÀÏ °æ¿ì
+			// 3ì—°ì† ê³µê²©ì¼ ê²½ìš°
 			if (character.motion[3] == 3) {
-				// 3¿¬¼Ó °ø°İ ¸ğ¼Ç
+				// 3ì—°ì† ê³µê²© ëª¨ì…˜
 				DrawSprite(x - 5 + 8 * character.direction, y, 5, 3, sprite_normalAttack[character.direction][character.motion[2] - 1]);
 			}
-			// ÀÏ¹İ °ø°İ
+			// ì¼ë°˜ ê³µê²©
 			else {
-				// °ø°İ ¸ğ¼Ç 1
+				// ê³µê²© ëª¨ì…˜ 1
 				if (character.motion[2] == 2) {
 					// draw hand
 					EditMap(x - 2 + 6 * character.direction, y + 1, 'o');
 					// draw weapon
 					DrawSprite(x - 5 + 10 * character.direction, y + 1, 3, 1, sprite_weapon[character.direction][character.weapon]);
 				}
-				// °ø°İ ¸ğ¼Ç 2
+				// ê³µê²© ëª¨ì…˜ 2
 				else {
 					// draw hand
 					EditMap(x + 2 * character.direction, y + 1, 'o');
@@ -605,24 +605,24 @@ void ControlCharacter() {
 				}
 			}
 		}
-		// °ø°İÀÌ FALSE ÀÏ °æ¿ì
+		// ê³µê²©ì´ FALSE ì¼ ê²½ìš°
 		else {
-			// ¹«±â¿Í º»Ã¼°¡ ºÙ¾îÀÖ°Ô draw weapon sprite
+			// ë¬´ê¸°ì™€ ë³¸ì²´ê°€ ë¶™ì–´ìˆê²Œ draw weapon sprite
 			EditMap(x + character.direction * 2, y + 1, 'o');
 			DrawSprite(x - 3 + 6 * character.direction, y + 1, 3, 1, sprite_weapon[character.direction][character.weapon]);
 			
-			// ¿òÁ÷ÀÓ motionÀÌ 3ÀÏ °æ¿ì
+			// ì›€ì§ì„ motionì´ 3ì¼ ê²½ìš°
 			if (character.motion[0] == 3)
-				EditMap(x + 1, y + 1, 'l');	// characterÀÇ ¸öÅë ºÎºĞ draw
+				EditMap(x + 1, y + 1, 'l');	// characterì˜ ëª¸í†µ ë¶€ë¶„ draw
 		}
 
-		// move°¡ TRUE ÀÏ °æ¿ì
+		// moveê°€ TRUE ì¼ ê²½ìš°
 		if (character.motion[0] > 0)
 			DrawSprite(x, y + 2, 3, 1, sprite_character_leg[character.direction][character.motion[0] - 1]);	// draw leg motion
 	}
 }
 
-// itemÀÌ dropµÉ¶§ ¸ğ¼ÇÀÌ³ª, Ä³¸¯ÅÍ¿Í Ãæµ¹µÉ ¶§ ¸ğ¼Ç ±¸Çö ÇÔ¼ö
+// itemì´ dropë ë•Œ ëª¨ì…˜ì´ë‚˜, ìºë¦­í„°ì™€ ì¶©ëŒë  ë•Œ ëª¨ì…˜ êµ¬í˜„ í•¨ìˆ˜
 void ControlItem(int index) {
 	short x = objects[index]->coord[0], y = objects[index]->coord[1];
 	short item_coord[2] = { x, y - 2 };
@@ -630,136 +630,136 @@ void ControlItem(int index) {
 
 	if (objects[index]->tick[1] < tick) {
 		objects[index]->tick[1] = tick * 2;
-		// x °¡¼Ó°ªÀ» ·£´ı °ªÀ¸·Î -> ¿ŞÂÊÀ¸·Î Æ¢¾î¿À¸§
+		// x ê°€ì†ê°’ì„ ëœë¤ ê°’ìœ¼ë¡œ -> ì™¼ìª½ìœ¼ë¡œ íŠ€ì–´ì˜¤ë¦„
 		objects[index]->accel[0] = 1 - 2 * objects[index]->hp[0] / (float)RAND_MAX;
-		// y °¡¼Ó°ªÀ» ·£´ı °ªÀ¸·Î -> À§·Î Æ¢¾î¿À¸§
+		// y ê°€ì†ê°’ì„ ëœë¤ ê°’ìœ¼ë¡œ -> ìœ„ë¡œ íŠ€ì–´ì˜¤ë¦„
 		objects[index]->accel[1] = -2 * objects[index]->hp[1] / (float)RAND_MAX;
 	}
 
-	// user¿Í itemÀÌ °ãÄ¥ °æ¿ì
+	// userì™€ itemì´ ê²¹ì¹  ê²½ìš°
 	if (CollisionCheck(item_coord, character.coord, item_size, character.size)) {
-		// item À§¿¡ E¸¦ Ç¥½Ã
+		// item ìœ„ì— Eë¥¼ í‘œì‹œ
 		DrawSprite(x + 1, y - 5, 3, 1, "[E]");
 
-		// user°¡ E¸¦ ´©¸£¸é
+		// userê°€ Eë¥¼ ëˆ„ë¥´ë©´
 		if (GetAsyncKeyState(0x45) & 0x8000) {
-			// userÀÇ weaponÀ» objects[index]->kind·Î ¹Ù²Ù°í
+			// userì˜ weaponì„ objects[index]->kindë¡œ ë°”ê¾¸ê³ 
 			character.weapon = objects[index]->kind;
 
-			// objects[index] ¸¦ Remove
+			// objects[index] ë¥¼ Remove
 			RemoveObject(index);
 			return;
 		}
 	}
 
-	// weaponÀÇ sprite¸¦ draw
+	// weaponì˜ spriteë¥¼ draw
 	DrawSprite(x, y - 2, 5, 2, sprite_invenWeapon[objects[index]->kind]);
 
-	// item drop ½Ã ¶³¾îÁö´Â ¸ğ¼Ç
+	// item drop ì‹œ ë–¨ì–´ì§€ëŠ” ëª¨ì…˜
 	MoveControl(objects[index]->coord, objects[index]->accel, objects[index]->size, &objects[index]->flyTime);
 }
 
-// mobÀÇ ¿òÁ÷ÀÓ Ã¼·ÂÇ¥½Ã, ¾ÆÀÌÅÛ µå·Ó ±¸Çö
+// mobì˜ ì›€ì§ì„ ì²´ë ¥í‘œì‹œ, ì•„ì´í…œ ë“œë¡­ êµ¬í˜„
 void ControlEnemy(int index) {
 	short x = objects[index]->coord[0], y = objects[index]->coord[1];
-	// userÀÇ weapon ÁÂÇ¥°ª
+	// userì˜ weapon ì¢Œí‘œê°’
 	short at_coord[2] = { character.coord[0] - 5 + 8 * character.direction, character.coord[1] }, at_size[2] = { 5, 3 };
-	// rand°ª (0 ~ 99)
+	// randê°’ (0 ~ 99)
 	short item_code = rand() % 100;
 
-	// mobÀÇ hp°¡ 1º¸´Ù ÀÛÀ» °æ¿ì -> mobÀ» Ã³Ä¡ÇßÀ» °æ¿ì
+	// mobì˜ hpê°€ 1ë³´ë‹¤ ì‘ì„ ê²½ìš° -> mobì„ ì²˜ì¹˜í–ˆì„ ê²½ìš°
 	if (objects[index]->hp[1] < 1) {
-		// mob 3¸¶¸® »ı¼º
+		// mob 3ë§ˆë¦¬ ìƒì„±
 		for (int i = 0; i < 3; i++)
 			CreateObject(x + objects[index]->size[0] / 2, y + objects[index]->size[1] / 2, objects[index]->kind + 100);
 
-		// 9% È®·ü·Î 1¹øÂ° ¹«±â drop
+		// 9% í™•ë¥ ë¡œ 1ë²ˆì§¸ ë¬´ê¸° drop
 		if (item_code >= 90)
 			CreateObject(x + objects[index]->size[0] / 2 - 2, y, 1);
 
-		// 4% È®·ü·Î 2¹øÂ° ¹«±â drop
+		// 4% í™•ë¥ ë¡œ 2ë²ˆì§¸ ë¬´ê¸° drop
 		if (item_code <= 3)
 			CreateObject(x + objects[index]->size[0] / 2 - 2, y, 2);
 
-		// °æÇèÄ¡ ++
+		// ê²½í—˜ì¹˜ ++
 		character.exp[1] += objects[index]->exp;
 
-		// mob object Á¦°Å
+		// mob object ì œê±°
 		RemoveObject(index);
 		return;
 	}
 	
-	// hp Ç¥½Ã ½Ã°£ -> ÇÇ°İ ½Ã 2ÃÊµ¿¾È
+	// hp í‘œì‹œ ì‹œê°„ -> í”¼ê²© ì‹œ 2ì´ˆë™ì•ˆ
 	if (objects[index]->tick[0] + 2000 > tick)
 		DrawNumber(x + objects[index]->size[0] / 2 - NumLen(objects[index]->hp[1]) / 2, y - 1, objects[index]->hp[1]);
 
-	// attackÀÌ TRUE ÀÌ°í ¹«±â°¡ mob°ú Ãæµ¹ÇÏ¿´À» °æ¿ì
+	// attackì´ TRUE ì´ê³  ë¬´ê¸°ê°€ mobê³¼ ì¶©ëŒí•˜ì˜€ì„ ê²½ìš°
 	if (character.motion[2] == 1 && CollisionCheck(objects[index]->coord, at_coord, objects[index]->size, at_size)) {
-		// ÇöÀç ½Ã°£À» hp Ç¥½Ã ½Ã°£ tickÀ¸·Î ¼³Á¤
+		// í˜„ì¬ ì‹œê°„ì„ hp í‘œì‹œ ì‹œê°„ tickìœ¼ë¡œ ì„¤ì •
 		objects[index]->tick[0] = tick;
-		// mobÀÇ ÇöÀç Ã¼·ÂÀ» userÀÇ power·Î ±ğÀ½
+		// mobì˜ í˜„ì¬ ì²´ë ¥ì„ userì˜ powerë¡œ ê¹ìŒ
 		objects[index]->hp[1] -= character.power;
-		// y °¡¼Ó°ªÀ» -0.55 -> Ã¼°ø
+		// y ê°€ì†ê°’ì„ -0.55 -> ì²´ê³µ
 		objects[index]->accel[1] = -0.55;
 
-		// 3¿¬¼Ó °ø°İÀÏ °æ¿ì Ã¼·ÂÀ» ÇÑ¹ø ´õ ±ğÀ½
+		// 3ì—°ì† ê³µê²©ì¼ ê²½ìš° ì²´ë ¥ì„ í•œë²ˆ ë” ê¹ìŒ
 		if (character.motion[3] == 3)
 			objects[index]->hp[1] -= character.power;
 
-		// user¸¦ ¹Ù¶óº¸°í ÀÖ´Â ¹æÇâÀÌ ¿À¸¥ÂÊÀÏ °æ¿ì, x °¡¼Ó°ªÀ» -0.75·Î ¼³Á¤ -> ¿ŞÂÊÀ¸·Î Æ¨°Ü³ª°¨
+		// userë¥¼ ë°”ë¼ë³´ê³  ìˆëŠ” ë°©í–¥ì´ ì˜¤ë¥¸ìª½ì¼ ê²½ìš°, x ê°€ì†ê°’ì„ -0.75ë¡œ ì„¤ì • -> ì™¼ìª½ìœ¼ë¡œ íŠ•ê²¨ë‚˜ê°
 		if (EnemyPosition(x, objects[index]->size[0]))
 			objects[index]->accel[0] = -0.75;
-		// ¿ŞÂÊÀÏ °æ¿ì, x °¡¼Ó°ªÀ» 0.75·Î ¼³Á¤ -> ¿À¸¥ÂÊÀ¸·Î Æ¨°Ü³ª°¨
+		// ì™¼ìª½ì¼ ê²½ìš°, x ê°€ì†ê°’ì„ 0.75ë¡œ ì„¤ì • -> ì˜¤ë¥¸ìª½ìœ¼ë¡œ íŠ•ê²¨ë‚˜ê°
 		else
 			objects[index]->accel[0] = 0.75;
 	}
 
-	// mob kind°¡ 100ÀÏ °æ¿ì -> mob id°¡ 100ÀÏ °æ¿ì
+	// mob kindê°€ 100ì¼ ê²½ìš° -> mob idê°€ 100ì¼ ê²½ìš°
 	if (objects[index]->kind == 100) {
-		// yÁÂÇ¥°¡ ¹Ù´ÚÀÏ °æ¿ì motion[0]À» 0À¸·Î
+		// yì¢Œí‘œê°€ ë°”ë‹¥ì¼ ê²½ìš° motion[0]ì„ 0ìœ¼ë¡œ
 		if (y + objects[index]->size[1] == FLOOR_Y)
 			objects[index]->motion[0] = 0;
-		// ¾Æ´Ï¸é 1·Î
+		// ì•„ë‹ˆë©´ 1ë¡œ
 		else
 			objects[index]->motion[0] = 1;
 
-		// mob ¿òÁ÷ÀÓ ±¸Çö
+		// mob ì›€ì§ì„ êµ¬í˜„
 		if (objects[index]->tick[1] + objects[index]->tick[2] < tick) {
 			objects[index]->tick[1] = tick;
 			objects[index]->tick[2] = 1000 + rand() % 1000;
-			// y °¡¼Ó°ªÀÌ randomÇÏ°Ô ÁöÁ¤µÊ ( ÀÌ¶§, ºñÀ²Àº x °¡¼Ó °ªÀÇ Àı¹İÀÌ µÇ¾î¾ß Æ÷¹°¼±À¸·Î ¶³¾îÁü )
+			// y ê°€ì†ê°’ì´ randomí•˜ê²Œ ì§€ì •ë¨ ( ì´ë•Œ, ë¹„ìœ¨ì€ x ê°€ì† ê°’ì˜ ì ˆë°˜ì´ ë˜ì–´ì•¼ í¬ë¬¼ì„ ìœ¼ë¡œ ë–¨ì–´ì§ )
 			objects[index]->accel[1] = rand() / (float)RAND_MAX / 2 - 1.2;
 
-			// user¸¦ ¹Ù¶óº¸°í ÀÖ´Â mobÀÇ ¹æÇâÀÌ ¿À¸¥ÂÊÀÏ °æ¿ì, x °¡¼Ó °ªÀÌ ¾ç¼ö random°ªÀ¸·Î ÁöÁ¤µÊ -> ¿À¸¥ÂÊÀ¸·Î ·£´ı Å©±â·Î Á¡ÇÁ
+			// userë¥¼ ë°”ë¼ë³´ê³  ìˆëŠ” mobì˜ ë°©í–¥ì´ ì˜¤ë¥¸ìª½ì¼ ê²½ìš°, x ê°€ì† ê°’ì´ ì–‘ìˆ˜ randomê°’ìœ¼ë¡œ ì§€ì •ë¨ -> ì˜¤ë¥¸ìª½ìœ¼ë¡œ ëœë¤ í¬ê¸°ë¡œ ì í”„
 			if (EnemyPosition(x, objects[index]->size[0]))
 				objects[index]->accel[0] = 2.4 - rand() / (float)RAND_MAX;
-			// user¸¦ ¹Ù¶óº¸°í ÀÖ´Â mobÀÇ ¹æÇâÀÌ ¿ŞÂÊÀÏ °æ¿ì, x °¡¼Ó °ªÀÌ À½¼ö random°ªÀ¸·Î ÁöÁ¤µÊ -> ¿ŞÂÊÀ¸·Î ·£´ı Å©±â·Î Á¡ÇÁ
+			// userë¥¼ ë°”ë¼ë³´ê³  ìˆëŠ” mobì˜ ë°©í–¥ì´ ì™¼ìª½ì¼ ê²½ìš°, x ê°€ì† ê°’ì´ ìŒìˆ˜ randomê°’ìœ¼ë¡œ ì§€ì •ë¨ -> ì™¼ìª½ìœ¼ë¡œ ëœë¤ í¬ê¸°ë¡œ ì í”„
 			else
 				objects[index]->accel[0] = rand() / (float)RAND_MAX - 2.4;
 		}
 
-		// userÀÇ ÇÇ°İ tickÀÌ 0ÀÏ °æ¿ì && user¿Í mobÀÌ Ãæµ¹
+		// userì˜ í”¼ê²© tickì´ 0ì¼ ê²½ìš° && userì™€ mobì´ ì¶©ëŒ
 		if (character.tick[5] == 0 && CollisionCheck(objects[index]->coord, character.coord, objects[index]->size, character.size)) {
-			// userÀÇ ÇÇ°İ tickÀ» 100À¸·Î ¼³Á¤, userÀÇ Ã¼·Â 10 °¨¼Ò
+			// userì˜ í”¼ê²© tickì„ 100ìœ¼ë¡œ ì„¤ì •, userì˜ ì²´ë ¥ 10 ê°ì†Œ
 			character.tick[5] = 100;
 			character.hp[1] -= 10;
 		}
 
-		// mobÀÇ sprite¸¦ draw
+		// mobì˜ spriteë¥¼ draw
 		DrawSprite(x, y, objects[index]->size[0], objects[index]->size[1], sprite_enemy1[objects[index]->motion[0]]);
 	}
 
-	// mobÀÇ movement¸¦ ¼³Á¤
+	// mobì˜ movementë¥¼ ì„¤ì •
 	MoveControl(objects[index]->coord, objects[index]->accel, objects[index]->size, &objects[index]->flyTime);
 }
 
-// Score¸¦ ¿Ã·ÁÁÖ´Â Particle¿¡ ´ëÇÑ ÇÔ¼ö
+// Scoreë¥¼ ì˜¬ë ¤ì£¼ëŠ” Particleì— ëŒ€í•œ í•¨ìˆ˜
 void ControlParticle(int index) {
 	short x = objects[index]->coord[0], y = objects[index]->coord[1];
 	short money_size[2] = { 2, 2 };
 	short money_coord[2] = { x, y - 1 };
 
-	// objectÀÇ kind°¡ 200ÀÏ °æ¿ì -> particle id°¡ 200ÀÏ °æ¿ì
+	// objectì˜ kindê°€ 200ì¼ ê²½ìš° -> particle idê°€ 200ì¼ ê²½ìš°
 	if (objects[index]->kind == 200) {
 		if (objects[index]->tick[1] < tick) {
 			objects[index]->tick[1] = tick * 2;
@@ -767,73 +767,73 @@ void ControlParticle(int index) {
 			objects[index]->accel[1] = -2 * objects[index]->hp[1] / (float)RAND_MAX;
 		}
 
-		// user¿Í particleÀÇ Ãæµ¹ÀÌ ¹ß»ıÇÒ °æ¿ì
+		// userì™€ particleì˜ ì¶©ëŒì´ ë°œìƒí•  ê²½ìš°
 		if (CollisionCheck(money_coord, character.coord, money_size, character.size)) {
 			// score + 100
 			character.score += 100;
 
-			// particle Á¦°Å
+			// particle ì œê±°
 			RemoveObject(index); 
 			return;
 		}
 
-		// x, y ÁÂÇ¥¿¡ particle draw
+		// x, y ì¢Œí‘œì— particle draw
 		EditMap(x, y - 1, '@');
 	}
 
-	// particleÀÇ °¡¼Ó°ª°ú ÁÂÇ¥°ªÀ» ÅëÇÏ¿© ÀÌµ¿ °ª °è»ê
+	// particleì˜ ê°€ì†ê°’ê³¼ ì¢Œí‘œê°’ì„ í†µí•˜ì—¬ ì´ë™ ê°’ ê³„ì‚°
 	MoveControl(objects[index]->coord, objects[index]->accel, objects[index]->size, &objects[index]->flyTime);
 }
 
-// object °¢°¢ÀÇ °ªÀ» tick¿¡ ¸Â°Ô mapData ¼öÁ¤
+// object ê°ê°ì˜ ê°’ì„ tickì— ë§ê²Œ mapData ìˆ˜ì •
 void ControlObject() {
 	for (int i = 0; i < OBJECT_MAX; i++) {
-		// object°¡ ÀÖÀ» °æ¿ì
+		// objectê°€ ìˆì„ ê²½ìš°
 		if (objects[i]) {
-			// objects[i]°¡ itemÀÏ °æ¿ì
+			// objects[i]ê°€ itemì¼ ê²½ìš°
 			if (objects[i]->kind < 100)
 				ControlItem(i);
-			// objects[i]°¡ mobÀÏ °æ¿ì
+			// objects[i]ê°€ mobì¼ ê²½ìš°
 			else if (objects[i]->kind > 99 && objects[i]->kind < 200)
 				ControlEnemy(i);
-			// objects[i]°¡ particleÀÏ °æ¿ì
+			// objects[i]ê°€ particleì¼ ê²½ìš°
 			else
 				ControlParticle(i);
 		}
 	}
 }
 
-// kind·Î ºĞ·ùÇÏ¿© Object»ı¼º
+// kindë¡œ ë¶„ë¥˜í•˜ì—¬ Objectìƒì„±
 void CreateObject(short x, short y, short kind) {
 	int index = 0;
 	Object* obj = 0;
 
-	// objects Áß ºó °ø°£ Å½»ö
+	// objects ì¤‘ ë¹ˆ ê³µê°„ íƒìƒ‰
 	while (TRUE) {
 		if (!objects[index])
 			break;
 
-		// ºó °ø°£ÀÌ ¾øÀ» °æ¿ì return
+		// ë¹ˆ ê³µê°„ì´ ì—†ì„ ê²½ìš° return
 		if (index == OBJECT_MAX)
 			return;
 
 		index++;
 	}
 
-	// Object Heap ÇÒ´ç
+	// Object Heap í• ë‹¹
 	obj = (Object*)malloc(sizeof(Object));
-	// Objects¿¡ ¸¸µç Object »ğÀÔ
+	// Objectsì— ë§Œë“  Object ì‚½ì…
 	objects[index] = obj;
 	memset(obj, 0, sizeof(Object));
 
-	// objectÀÇ ÃÊ±â °ªÀ» ¼³Á¤
+	// objectì˜ ì´ˆê¸° ê°’ì„ ì„¤ì •
 	obj->kind = kind;
 	obj->coord[0] = x; obj->coord[1] = y;
 	obj->tick[0] = 0;
 
-	// itemÀÌ³ª particleÀÏ °æ¿ì
+	// itemì´ë‚˜ particleì¼ ê²½ìš°
 	if (kind < 100 || kind > 199) {
-		// hp °ªÀ» rand numÀ¸·Î
+		// hp ê°’ì„ rand numìœ¼ë¡œ
 		obj->hp[0] = rand();
 		obj->hp[1] = rand();
 		obj->tick[1] = 0;
@@ -841,9 +841,9 @@ void CreateObject(short x, short y, short kind) {
 		obj->tick[3] = 0;
 	}
 
-	// mobÀÏ °æ¿ì
+	// mobì¼ ê²½ìš°
 	if (kind > 99 && kind < 200) {
-		// ÃÊ±â°ª ¼³Á¤ kind - 100 => ±âÁ¸¿¡ ¼³Á¤ÇØµÎ¾ú´ø mobÀÇ statÀ» ºÒ·¯¿È
+		// ì´ˆê¸°ê°’ ì„¤ì • kind - 100 => ê¸°ì¡´ì— ì„¤ì •í•´ë‘ì—ˆë˜ mobì˜ statì„ ë¶ˆëŸ¬ì˜´
 		obj->hp[0] = stat_enemy[kind - 100][0];
 		obj->hp[1] = obj->hp[0];
 
@@ -858,20 +858,20 @@ void CreateObject(short x, short y, short kind) {
 	}
 }
 
-// Object¸¦ Áö¿ì´Â ÇÔ¼ö
+// Objectë¥¼ ì§€ìš°ëŠ” í•¨ìˆ˜
 void RemoveObject(int index) {
-	// ÇØ´ç indexÀÇ object¸¦ free
+	// í•´ë‹¹ indexì˜ objectë¥¼ free
 	free(objects[index]);
-	// indexÀÇ objects¸¦ ºñ¿ò
+	// indexì˜ objectsë¥¼ ë¹„ì›€
 	objects[index] = 0;
 }
 
-// 1°ú 2ÀÇ Ãæµ¹ °Ë»ç ÇÔ¼ö
+// 1ê³¼ 2ì˜ ì¶©ëŒ ê²€ì‚¬ í•¨ìˆ˜
 bool CollisionCheck(short coord1[], short coord2[], short size1[], short size2[]) {
-	// 1ÀÇ x°ªÀÌ 2ÀÇ x°ª¿¡¼­ 1ÀÇ x size¸¦ »« °ª º¸´Ù Å©¸é¼­
-	// 1ÀÇ x°ªÀÌ 2ÀÇ x°ª¿¡¼­ 2ÀÇ x size¸¦ ´õÇÑ °ª º¸´Ù ÀÛ°í
-	// 1ÀÇ y°ªÀÌ 2ÀÇ y°ª¿¡¼­ 1ÀÇ y size¸¦ »« °ª º¸´Ù Å©¸é¼­
-	// 1ÀÇ y°ªÀÌ 2ÀÇ y°ª¿¡¼­ 2ÀÇ y size¸¦ ´õÇÑ °ª º¸´Ù ÀÛÀ» °æ¿ì  -> ¸ğµÎ ÃæÁ·½ÃÄÑ¾ß ÇÔ. (x, y°¡ ¸ğµÎ °ãÃÄÁú °æ¿ì¸¦ ¶æÇÔ.)
+	// 1ì˜ xê°’ì´ 2ì˜ xê°’ì—ì„œ 1ì˜ x sizeë¥¼ ëº€ ê°’ ë³´ë‹¤ í¬ë©´ì„œ
+	// 1ì˜ xê°’ì´ 2ì˜ xê°’ì—ì„œ 2ì˜ x sizeë¥¼ ë”í•œ ê°’ ë³´ë‹¤ ì‘ê³ 
+	// 1ì˜ yê°’ì´ 2ì˜ yê°’ì—ì„œ 1ì˜ y sizeë¥¼ ëº€ ê°’ ë³´ë‹¤ í¬ë©´ì„œ
+	// 1ì˜ yê°’ì´ 2ì˜ yê°’ì—ì„œ 2ì˜ y sizeë¥¼ ë”í•œ ê°’ ë³´ë‹¤ ì‘ì„ ê²½ìš°  -> ëª¨ë‘ ì¶©ì¡±ì‹œì¼œì•¼ í•¨. (x, yê°€ ëª¨ë‘ ê²¹ì³ì§ˆ ê²½ìš°ë¥¼ ëœ»í•¨.)
 	if (coord1[0] > coord2[0] - size1[0] && coord1[0] < coord2[0] + size2[0]
 		&& coord1[1] > coord2[1] - size1[1] && coord1[1] < coord2[1] + size2[1])
 		return TRUE;
@@ -879,126 +879,126 @@ bool CollisionCheck(short coord1[], short coord2[], short size1[], short size2[]
 		return FALSE;
 }
 
-// mobÀÌ user¸¦ ÇâÇØ ¹Ù¶óº¸°í ÀÖ´Â ¹æÇâ
+// mobì´ userë¥¼ í–¥í•´ ë°”ë¼ë³´ê³  ìˆëŠ” ë°©í–¥
 bool EnemyPosition(short x, short size_x) {
-	// userÀÇ x ÁÂÇ¥°¡ (mobÀÇ xÁÂÇ¥ + xÀÇ Å©±â / 2) º¸´Ù ÀÛÀ» °æ¿ì -> mobÀº ¿ŞÂÊÀ» ¹Ù¶óº½.
+	// userì˜ x ì¢Œí‘œê°€ (mobì˜ xì¢Œí‘œ + xì˜ í¬ê¸° / 2) ë³´ë‹¤ ì‘ì„ ê²½ìš° -> mobì€ ì™¼ìª½ì„ ë°”ë¼ë´„.
 	if (character.coord[0] + 1 < x + floor(size_x / 2 + 0.5))
 		return FALSE;
-	// ¾Æ´Ï¸é mobÀº ¿À¸¥ÂÊÀ» ¹Ù¶óº½.
+	// ì•„ë‹ˆë©´ mobì€ ì˜¤ë¥¸ìª½ì„ ë°”ë¼ë´„.
 	else
 		return TRUE;
 }
 
-// x, yÁÂÇ¥°ª°ú x, y°¡¼Ó°ªÀ» ÀÌ¿ëÇÏ¿© ¿òÁ÷ÀÓÀ» ±¸ÇöÇÏ´Â ÇÔ¼ö
+// x, yì¢Œí‘œê°’ê³¼ x, yê°€ì†ê°’ì„ ì´ìš©í•˜ì—¬ ì›€ì§ì„ì„ êµ¬í˜„í•˜ëŠ” í•¨ìˆ˜
 void MoveControl(short coord[], float accel[], short size[], float* flyTime) {
-	// ÃÖÁ¾ x, y°¡¼Ó°ª -> x, y ÁÂÇ¥ ÀÌµ¿°ª
+	// ìµœì¢… x, yê°€ì†ê°’ -> x, y ì¢Œí‘œ ì´ë™ê°’
 	float x_value = accel[0], y_value = accel[1];
 
-	// yÁÂÇ¥¿Í yÅ©±â¸¦ ÇÕÇÑ °ªÀÌ ¹Ù´ÚÀÇ ÁÂÇ¥¿Í °°À» °æ¿ì -> ¹Ù´Ú¿¡ ÀÖÀ½. -> Ã¼°ø½Ã°£ == 0
+	// yì¢Œí‘œì™€ yí¬ê¸°ë¥¼ í•©í•œ ê°’ì´ ë°”ë‹¥ì˜ ì¢Œí‘œì™€ ê°™ì„ ê²½ìš° -> ë°”ë‹¥ì— ìˆìŒ. -> ì²´ê³µì‹œê°„ == 0
 	if (coord[1] + size[1] == FLOOR_Y) {
 		*flyTime = 0;
 	}
-	// ´Ù¸¦°æ¿ì -> °øÁß¿¡ ¶° ÀÖÀ½.
+	// ë‹¤ë¥¼ê²½ìš° -> ê³µì¤‘ì— ë–  ìˆìŒ.
 	else {
-		// flyTimeÀ» Áõ°¡½ÃÅ°°í y°¡¼Ó°ª¿¡¼­ flyTime °ªÀ» ´õÇÔ
-		// ÀÌ¶§, °øÁß¿¡ ¶äÀ» Ç¥ÇöÇÏ±â À§ÇÏ¿© y°¡¼Ó°ª¿¡ À½¼ö °ªÀ» ³Ö´Âµ¥ ÀÌ ½Ã°£À» 0.05·Î ³ª´©¸é
-		// Ã¼°ø ½Ã°£À» ±¸ÇÒ ¼ö ÀÖÀ½.
+		// flyTimeì„ ì¦ê°€ì‹œí‚¤ê³  yê°€ì†ê°’ì—ì„œ flyTime ê°’ì„ ë”í•¨
+		// ì´ë•Œ, ê³µì¤‘ì— ëœ¸ì„ í‘œí˜„í•˜ê¸° ìœ„í•˜ì—¬ yê°€ì†ê°’ì— ìŒìˆ˜ ê°’ì„ ë„£ëŠ”ë° ì´ ì‹œê°„ì„ 0.05ë¡œ ë‚˜ëˆ„ë©´
+		// ì²´ê³µ ì‹œê°„ì„ êµ¬í•  ìˆ˜ ìˆìŒ.
 		*flyTime += 0.05;
 		accel[1] += *flyTime;
 	}
 
-	// x°¡¼Ó°ª°ú y°¡¼Ó°ªÀÌ 0ÀÌ ¾Æ´Ò°æ¿ì -> ¿òÁ÷ÀÌ°í ÀÖÀ» °æ¿ì
+	// xê°€ì†ê°’ê³¼ yê°€ì†ê°’ì´ 0ì´ ì•„ë‹ê²½ìš° -> ì›€ì§ì´ê³  ìˆì„ ê²½ìš°
 	if (x_value != 0 || y_value != 0) {
-		// xÁÂÇ¥°ª + x °¡¼Ó°ªÀÌ 1º¸´Ù ÀÛÀ» °æ¿ì -> x ÃÖ¼Ò °ªÀ» ¹ş¾î³­ °æ¿ì -> x°¡¼Ó°ªÀ» x ÃÖ¼Ò°ªÀ» ³ÑÁö ¾Ê°Ô(x_value > 1)
+		// xì¢Œí‘œê°’ + x ê°€ì†ê°’ì´ 1ë³´ë‹¤ ì‘ì„ ê²½ìš° -> x ìµœì†Œ ê°’ì„ ë²—ì–´ë‚œ ê²½ìš° -> xê°€ì†ê°’ì„ x ìµœì†Œê°’ì„ ë„˜ì§€ ì•Šê²Œ(x_value > 1)
 		if (coord[0] + x_value < 1)
 			x_value = 1 - coord[0];
-		// xÁÂÇ¥°ª + xÅ©±â°ª + x°¡¼Ó°ªÀÌ X ÃÖ´ë°ªº¸´Ù Å¬ °æ¿ì -> x°¡¼Ó°ªÀ» x ÃÖ´ë°ªÀ» ³ÑÁö ¾Ê°Ô(x_value < MAP_X_MAX)
+		// xì¢Œí‘œê°’ + xí¬ê¸°ê°’ + xê°€ì†ê°’ì´ X ìµœëŒ€ê°’ë³´ë‹¤ í´ ê²½ìš° -> xê°€ì†ê°’ì„ x ìµœëŒ€ê°’ì„ ë„˜ì§€ ì•Šê²Œ(x_value < MAP_X_MAX)
 		if (coord[0] + size[0] + x_value > MAP_X_MAX)
 			x_value = MAP_X_MAX - size[0] - coord[0];
-		// yÁÂÇ¥°ª + yÅ©±â°ª + y°¡¼Ó°ªÀÌ ¹Ù´Ú º¸´Ù Å¬ °æ¿ì -> y°¡¼Ó°ªÀ» ¼öÁ¤
+		// yì¢Œí‘œê°’ + yí¬ê¸°ê°’ + yê°€ì†ê°’ì´ ë°”ë‹¥ ë³´ë‹¤ í´ ê²½ìš° -> yê°€ì†ê°’ì„ ìˆ˜ì •
 		if (coord[1] + size[1] + y_value > FLOOR_Y)
 			y_value = FLOOR_Y - coord[1] - size[1];
 	}
 
-	// xÁÂÇ¥°ª¿¡ °¡¼Ó°ªÀ» ´õÇØ¼­ ÀúÀå. yÁÂÇ¥°ª¿¡ °¡¼Ó°ªÀ» ´õÇØ¼­ ÀúÀå. -> user³ª objectÀÇ x, y°ªÀÌ ¹Ù²ñ -> ÀÌµ¿
-	// ¸¸¾à, x_value°¡ ¾ç¼öÀÏ °æ¿ì ¿À¸¥ÂÊÀ¸·Î, À½¼öÀÏ °æ¿ì ¿ŞÂÊÀ¸·Î ÀÌµ¿.
+	// xì¢Œí‘œê°’ì— ê°€ì†ê°’ì„ ë”í•´ì„œ ì €ì¥. yì¢Œí‘œê°’ì— ê°€ì†ê°’ì„ ë”í•´ì„œ ì €ì¥. -> userë‚˜ objectì˜ x, yê°’ì´ ë°”ë€œ -> ì´ë™
+	// ë§Œì•½, x_valueê°€ ì–‘ìˆ˜ì¼ ê²½ìš° ì˜¤ë¥¸ìª½ìœ¼ë¡œ, ìŒìˆ˜ì¼ ê²½ìš° ì™¼ìª½ìœ¼ë¡œ ì´ë™.
 	coord[0] += floor(x_value + 0.5); coord[1] += floor(y_value + 0.5);
 
-	// x°¡¼Ó°ªÀÌ 0º¸´Ù Å¬ °æ¿ì -0.2, ÀÛÀ» °æ¿ì +0.2
+	// xê°€ì†ê°’ì´ 0ë³´ë‹¤ í´ ê²½ìš° -0.2, ì‘ì„ ê²½ìš° +0.2
 	if (accel[0] > 0) accel[0] -= 0.2; if (accel[0] < 0) accel[0] += 0.2;
-	// y°¡¼Ó°ªÀÌ 0º¸´Ù Å¬ °æ¿ì -0.1, ÀÛÀ» °æ¿ì +0.1
+	// yê°€ì†ê°’ì´ 0ë³´ë‹¤ í´ ê²½ìš° -0.1, ì‘ì„ ê²½ìš° +0.1
 	if (accel[1] > 0) accel[1] -= 0.1; if (accel[1] < 0) accel[1] += 0.1;
 }
 
-// box¸¦ ±×¸®´Â ÇÔ¼ö
+// boxë¥¼ ê·¸ë¦¬ëŠ” í•¨ìˆ˜
 void DrawBox(short x, short y, short size_x, short size_y) {
-	// ÃÖ»ó´Ü ÁÂ, ¿ì ²ÀÁşÁ¡
+	// ìµœìƒë‹¨ ì¢Œ, ìš° ê¼­ì§“ì 
 	EditMap(x, y, '.'); EditMap(x + size_x - 1, y, '.');
-	// ÃÖÇÏ´Ü ÁÂ, ¿ì ²ÀÁşÁ¡
+	// ìµœí•˜ë‹¨ ì¢Œ, ìš° ê¼­ì§“ì 
 	EditMap(x, y + size_y - 1, '\''); EditMap(x + size_x - 1, y + size_y - 1, '\'');
 
-	// °¡·ÎÁÙ ±×¸®±â
+	// ê°€ë¡œì¤„ ê·¸ë¦¬ê¸°
 	for (int i = 1; i < size_x - 1; i++) {
 		EditMap(x + i, y, '-'); EditMap(x + i, y + size_y - 1, '-');
 	}
-	// ¼¼·ÎÁÙ ±×¸®±â
+	// ì„¸ë¡œì¤„ ê·¸ë¦¬ê¸°
 	for (int i = 1; i < size_y - 1; i++) {
 		EditMap(x, y + i, '|'); EditMap(x + size_x - 1, y + i, '|');
 	}
 }
 
-// ¼ıÀÚ¸¦ draw ÇÏ´Â ÇÔ¼ö
+// ìˆ«ìë¥¼ draw í•˜ëŠ” í•¨ìˆ˜
 void DrawNumber(short x, short y, int num) {
-	// tmp ¼ıÀÚ ÀúÀå ÀÓ½Ã º¯¼ö, len ¼ıÀÚ ±æÀÌ°¡ ´ã±â´Â º¯¼ö, cnt ¹İº¹¹® iterator
+	// tmp ìˆ«ì ì €ì¥ ì„ì‹œ ë³€ìˆ˜, len ìˆ«ì ê¸¸ì´ê°€ ë‹´ê¸°ëŠ” ë³€ìˆ˜, cnt ë°˜ë³µë¬¸ iterator
 	int tmp = num, len = NumLen(tmp), cnt = len;
-	// ¼ıÀÚ -> ¹®ÀÚ °á°ú°ª ÀúÀå º¯¼ö
+	// ìˆ«ì -> ë¬¸ì ê²°ê³¼ê°’ ì €ì¥ ë³€ìˆ˜
 	char* str = malloc(sizeof(char) * len);
 	memset(str, 0, sizeof(char) * len);
 
 	do {
-		// ¼ıÀÚ ±æÀÌ 1¾¿ °¨¼Ò½ÃÅ°¸é¼­
+		// ìˆ«ì ê¸¸ì´ 1ì”© ê°ì†Œì‹œí‚¤ë©´ì„œ
 		cnt--;
-		// ascii code·Î 1ÀÇ ÀÚ¸®ºÎÅÍ Â÷·Ê´ë·Î ³ÖÀ½.
+		// ascii codeë¡œ 1ì˜ ìë¦¬ë¶€í„° ì°¨ë¡€ëŒ€ë¡œ ë„£ìŒ.
 		str[cnt] = (char)(tmp % 10 + 48);
 		tmp /= 10;
 	} while (tmp != 0);
 
-	// x, y ÁÂÇ¥¿¡ ¼ıÀÚ¸¦ draw
+	// x, y ì¢Œí‘œì— ìˆ«ìë¥¼ draw
 	DrawSprite(x, y, len, 1, str);
 	free(str);
 }
 
-// sprite¸¦ drawÇÏ´Â ÇÔ¼ö
+// spriteë¥¼ drawí•˜ëŠ” í•¨ìˆ˜
 void DrawSprite(short x, short y, short size_x, short size_y, const char spr[]) {
 	for (int i = 0; i < size_y; i++) {
 		for (int n = 0; n < size_x; n++)
-			// x¿Í y¸¦ ±âÁØÀ¸·Î n, i¸¦ Áõ°¡½ÃÅ°¸é¼­ ¹Ş¾Æ¿Â spr¿¡ ´ã±ä °ªÀ¸·Î mapData¸¦ edit
+			// xì™€ yë¥¼ ê¸°ì¤€ìœ¼ë¡œ n, ië¥¼ ì¦ê°€ì‹œí‚¤ë©´ì„œ ë°›ì•„ì˜¨ sprì— ë‹´ê¸´ ê°’ìœ¼ë¡œ mapDataë¥¼ edit
 			EditMap(x + n, y + i, spr[i * size_x + n]);
 	}
 }
 
-// °¡Á®¿Â str¹è¿­¿¡ max_value¸¸Å­ str_s·Î °¡µæ Ã¤¿ò
+// ê°€ì ¸ì˜¨ strë°°ì—´ì— max_valueë§Œí¼ str_së¡œ ê°€ë“ ì±„ì›€
 void FillMap(char str[], char str_s, int max_value) {
 	for (int i = 0; i < max_value; i++)
 		str[i] = str_s;
 }
 
-// mapData¹è¿­¿¡¼­ x, y °¡ À¯È¿ÇÑ ÁÂÇ¥ÀÏ °æ¿ì, str·Î mapData¸¦ edit
+// mapDataë°°ì—´ì—ì„œ x, y ê°€ ìœ íš¨í•œ ì¢Œí‘œì¼ ê²½ìš°, strë¡œ mapDataë¥¼ edit
 void EditMap(short x, short y, char str) {
 	if (x > 0 && y > 0 && x - 1 < MAP_X_MAX && y - 1 < MAP_Y_MAX)
 		mapData[(y - 1) * MAP_X_MAX + x - 1] = str;
 }
 
-// ¼ıÀÚÀÇ ±æÀÌ¸¦ ±¸ÇÏ´Â ÇÔ¼ö
+// ìˆ«ìì˜ ê¸¸ì´ë¥¼ êµ¬í•˜ëŠ” í•¨ìˆ˜
 int NumLen(int num) {
 	int tmp = num, len = 0;
 
-	// 0ÀÌ¸é ±æÀÌ°¡ 1ÀÌ¹Ç·Î 1À» return
+	// 0ì´ë©´ ê¸¸ì´ê°€ 1ì´ë¯€ë¡œ 1ì„ return
 	if (num == 0) {
 		return 1;
 	}
 	else {
-		// tmp¸¦ 10À¸·Î ³ª´©¸é¼­ lenÀ» Áõ°¡½ÃÅ´ -> ÀÚ¸´¼ö¸¶´Ù len Áõ°¡
+		// tmpë¥¼ 10ìœ¼ë¡œ ë‚˜ëˆ„ë©´ì„œ lenì„ ì¦ê°€ì‹œí‚´ -> ìë¦¿ìˆ˜ë§ˆë‹¤ len ì¦ê°€
 		while (tmp != 0) {
 			tmp /= 10;
 			len++;
